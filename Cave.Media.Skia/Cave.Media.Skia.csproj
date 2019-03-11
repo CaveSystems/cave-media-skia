@@ -1,53 +1,51 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Authors>Andreas Rohleder</Authors>
     <Company>CaveSystems GmbH, Andreas Rohleder</Company>
-    <Product>Cave Library</Product>
-    <Copyright>(c) 2003-2018 Andreas Rohleder</Copyright>
-    <PackageLicenseUrl>https://www.gnu.org/licenses/agpl-3.0.en.html</PackageLicenseUrl>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>Cave.Media.Skia.snk</AssemblyOriginatorKeyFile>
-    <Version>1.0.0</Version>
+    <Copyright>(c) 2003-$([System.DateTime]::UtcNow.Year) Andreas Rohleder</Copyright>
     <PackageIconUrl>https://www.cavesystems.de/favicon.ico</PackageIconUrl>
-    <Description>CaveSystems Erweiterungen für Skia</Description>
-    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Cave.Library.Skia.xml</DocumentationFile>
+    <PackageLicenseExpression>LGPL-3.0-only</PackageLicenseExpression>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+    <FileVersion>$([System.DateTime]::UtcNow.Year).$([System.DateTime]::UtcNow.ToString("MMdd")).$([System.DateTime]::UtcNow.ToString("HHmm")).$([System.DateTime]::UtcNow.ToString("ssfff"))</FileVersion>
+    <LangVersion>latest</LangVersion>
+    <!--project-->
+    <RootNamespace>Cave.Media.Skia</RootNamespace>
+    <AssemblyOriginatorKeyFile>Cave.Media.Skia.snk</AssemblyOriginatorKeyFile>
+    <Product>CaveSystems Media Skia Extensions Library</Product>
+    <PackageTags>CaveSystems Media Skia</PackageTags>
+    <Description>CaveSystems Media Skia Bibliothek. This packages contains Skia extension classes for Cave.Media.</Description>
+    <PackageProjectUrl>https://github.com/CaveSystems/cave-media-skia</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/CaveSystems/cave-media-skia</RepositoryUrl>
+    <!--settings-->
+    <PackageReleaseNotes />
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <SignAssembly>true</SignAssembly>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <AssemblyVersion>1.0.0</AssemblyVersion>
-    <FileVersion>2019.129.1934.236</FileVersion>
-    <DebugType>pdbonly</DebugType>
+    <NeutralLanguage />
+    <DelaySign>false</DelaySign>
+    <DebugType>portable</DebugType>
     <DebugSymbols>true</DebugSymbols>
     <IncludeSymbols>true</IncludeSymbols>
     <IncludeSymbolsInPackage>true</IncludeSymbolsInPackage>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <Deterministic>true</Deterministic>
+    <DeterministicSourcePaths>false</DeterministicSourcePaths>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>TRACE;DEBUG;</DefineConstants>
   </PropertyGroup>
-  <!-- Workaround for EmbedSources support, see https://github.com/dotnet/roslyn/issues/19127-->
-  <Target Condition="'$(Configuration)'=='Debug'" Name="PopulateEmbeddedFiles" AfterTargets="BeforeCompile" BeforeTargets="CoreCompile">
-    <ItemGroup>
-      <EmbeddedFiles Include="@(Compile)" />
-    </ItemGroup>
-  </Target>
   <PropertyGroup>
     <DefineConstants Condition=" !$(DefineConstants.Contains(';NET')) ">$(DefineConstants);NET$(TargetFramework.ToUpper().Replace("_", "").Replace(".", "").Replace("NET", ""))</DefineConstants>
     <DefineConstants Condition=" $(DefineConstants.Contains(';NET')) ">$(DefineConstants.Remove($(DefineConstants.LastIndexOf(";NET"))));NET$(TargetFramework.ToUpper().Replace("_", "").Replace(".", "").Replace("NET", ""))</DefineConstants>
-    <PackageProjectUrl>https://www.cavesystems.de</PackageProjectUrl>
-    <PackageTags>CaveSystems Media Skia Library</PackageTags>
-    <PackageReleaseNotes>
-    </PackageReleaseNotes>
-    <NeutralLanguage />
-    <RootNamespace>Cave.Media</RootNamespace>
-    <DelaySign>false</DelaySign>
   </PropertyGroup>
-  <ItemGroup Condition="'$(TargetFramework)'=='net40' OR '$(TargetFramework)'=='net45' OR '$(TargetFramework)'=='net46' OR '$(TargetFramework)'=='net471'">
+  <ItemGroup Condition="'$(TargetFramework)'=='net40' OR '$(TargetFramework)'=='net45' OR '$(TargetFramework)'=='net46' OR '$(TargetFramework)'=='net47'">
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
@@ -56,7 +54,13 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Cave.Media" Version="1.0.1" />
+    <None Remove="stylecop.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <AdditionalFiles Include="stylecop.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Cave.Media" Version="1.0.3" />
     <PackageReference Include="SkiaSharp" Version="1.68.0" />
   </ItemGroup>
   <ItemGroup>
